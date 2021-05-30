@@ -1,5 +1,6 @@
 package canary.config;
 
+import canary.service.SpringDataUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SpringDataUserDetailService customUserDetailService(){
+        return new SpringDataUserDetailService();
     }
 
     @Override

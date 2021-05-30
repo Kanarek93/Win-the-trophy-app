@@ -4,9 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WttApplication {
+public class CanaryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WttApplication.class, args);
+        SpringApplication.run(CanaryApplication.class, args);
     }
 }
+ 

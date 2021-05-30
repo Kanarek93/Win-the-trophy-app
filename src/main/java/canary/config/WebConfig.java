@@ -37,9 +37,4 @@ public class WebConfig implements WebMvcConfigurer {
         return jpaTransactionManager;
     }
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 }

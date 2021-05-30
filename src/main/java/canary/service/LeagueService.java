@@ -2,7 +2,6 @@ package canary.service;
 
 import canary.domain.LeagueDto;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -10,9 +9,6 @@ import java.util.List;
 public class LeagueService {
 
     //oddzielna tabela w bazie danych byłaby najlepsza! Nie żeby powiększyć bazę danych nie trzeba będzie stopować aplikacji
-    private final List<String> countries = List.of("England", "Spain", "Italy", "Germany", "France", "Poland");
+    //private final List<String> countries = List.of("England", "Spain", "Italy", "Germany", "France", "Poland");
 
-    public LeagueDto getLeague(){
-        return null;
-    }
 }

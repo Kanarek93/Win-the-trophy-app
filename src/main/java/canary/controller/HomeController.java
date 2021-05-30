@@ -1,5 +1,6 @@
 package canary.controller;
 
+import canary.domain.User;
 import canary.domain.UserDto;
 import canary.service.UserService;
 import org.slf4j.Logger;
@@ -41,10 +42,10 @@ public class HomeController {
 
     @PostMapping("/register")
     @ResponseBody
-    public String registrationForm(@ModelAttribute ("user") @Valid UserDto userDto){
-        LOGGER.info("Odebrałem usera " + userDto.getName());
+    public String registrationForm(@ModelAttribute ("user") @Valid User user){
+        LOGGER.info("Odebrałem usera " + user.getName());
 
-        userService.registerNewUser(userDto);
+        userService.saveUser(user);
 
         return "successfully registered";
     }
