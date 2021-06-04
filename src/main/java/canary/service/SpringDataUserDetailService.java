@@ -15,10 +15,10 @@ import java.util.Set;
 @Service
 public class SpringDataUserDetailService implements UserDetailsService {
 
-    private UserServiceInterface userService;
+    private UserService userService;
 
     @Autowired
-    public void setUserRepository(UserService us){
+    public void setUserRepository(UserServiceImpl us){
         this.userService = us;
     }
 
