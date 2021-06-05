@@ -1,5 +1,6 @@
 package canary.domain;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+@Data
 public class UserDto {
 
     @NotNull @NotEmpty
@@ -19,7 +21,7 @@ public class UserDto {
     @NotNull @NotEmpty
     private String password;
 
-    public String getName() {
+    /*public String getName() {
         return name;
     }
 
@@ -50,5 +52,5 @@ public class UserDto {
         this.name = name;
         this.email = email;
         this.password = password;
-    }
+    }*/
 }

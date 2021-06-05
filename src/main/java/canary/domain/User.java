@@ -16,9 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -32,16 +29,12 @@ public class User {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull @NotEmpty
     @Column (nullable = false, unique = true, length = 60)
     private String name;
 
-    @NotNull @NotEmpty
     @Column(nullable = false)
     private String password;
 
-    @NotNull @NotEmpty
-    @Email
     @Column (nullable = false, unique = true, length = 100)
     private String email;
 
@@ -50,7 +43,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public Long getId() {
+    private int enabled;
+
+/*    public Long getId() {
         return id;
     }
 
@@ -88,5 +83,5 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
+    }*/
 }

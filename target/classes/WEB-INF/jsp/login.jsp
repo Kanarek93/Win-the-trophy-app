@@ -18,10 +18,10 @@
     Login: <form:input path="name"/>
     Password: <form:password path="password"/>
     <input type="submit" value="Login!"/>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+    <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"-->
 </form:form>
 <br>
 Nie masz jeszcze konta? <br>
-<a href="/wtt/register">Zarejestruj się!</a>
+<a href="/register">Zarejestruj się!</a>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package canary.service;
 
+import canary.domain.CurrentUser;
 import canary.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +30,7 @@ public class SpringDataUserDetailService implements UserDetailsService {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         user.getRoles().forEach(r ->
                 grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
-        return new org.springframework.security.core.userdetails.User(
-                user.getName(), user.getPassword(),grantedAuthorities);
+        return new CurrentUser(
+                user.getName(), user.getPassword(),grantedAuthorities, user);
     }
 }

@@ -3,8 +3,13 @@ package canary.service;
 import canary.controller.HomeController;
 import canary.domain.Role;
 import canary.domain.User;
+import canary.domain.UserDto;
+import canary.domain.UserMapper;
 import canary.repository.RoleRepository;
 import canary.repository.UserRepository;
+import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +20,9 @@ import java.util.HashSet;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+    private UserMapper mapper = Mappers.getMapper(UserMapper.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -33,30 +41,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
-        String pass = user.getPassword();
-        user.setPassword(passwordEncoder.encode(pass));
+    public User registerUser(UserDto userDto) {
+        if (emailAlreadyExist(userDto.getEmail())){
+            throw new IllegalArgumentException("There is an account with email: " + userDto.getEmail());
+        }
+        User user = mapper.userDtoToUser(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(1);
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
-        HomeController.LOGGER.info("Zapisałem nowego użytkownika");
+        LOGGER.info("Zarejestrowałem użytkownika " + user.getName() + "o id = " + user.getId());
+        return user;
     }
 
-    /*
-    public String registerNewUser(UserDto userDto){
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
+    private boolean emailAlreadyExist(String email){
+        return  userRepository.findByEmail(email) != null;
+    }
 
-        String hashedPass = passwordEncoder.encode(userDto.getPassword());
-        HomeController.LOGGER.info("zahashowalem haslo " + hashedPass);
-
-        user.setPassword(hashedPass);
-
-        User newUser = userRepository.save(user);
-
-        return "Mam nowego użytkownika o id = " + newUser.getId();
-
-    }*/
 
 }

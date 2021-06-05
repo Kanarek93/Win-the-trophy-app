@@ -1,35 +1,40 @@
 package canary.controller;
 
+import canary.domain.CurrentUser;
 import canary.domain.User;
 import canary.domain.UserDto;
 import canary.service.UserService;
-import canary.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@RequestMapping("/wtt")
 @Controller
 public class HomeController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
     private final UserService userService;
 
     public HomeController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/login")
+    public String loadLoginPage(WebRequest request, Model model){
+        UserDto userDto = new UserDto();
+        model.addAttribute("user", userDto);
+        return "login";
     }
 
 
@@ -42,20 +47,23 @@ public class HomeController {
 
     @PostMapping("/register")
     @ResponseBody
-    public String registrationForm(@ModelAttribute ("user") @Valid UserDto user,
-                                         HttpRequest request,
-                                         Error errors){
-        LOGGER.info("Odebrałem usera " + user.getName());
+    public ModelAndView registrationForm(@ModelAttribute ("user") @Valid UserDto user,
+                                         HttpServletRequest request,
+                                         Errors errors){
+        try {
+            User registered = userService.registerUser(user);
+        } catch (Exception uaeEx) {
+            ModelAndView mav = new ModelAndView();
+            mav.addObject("message", "An account with this email already exist");
+            return mav;
+        }
 
-        //userService.saveUser(user);
-
-        return "successfully registered";
+        return new ModelAndView("login", "user", user);
     }
 
-    @GetMapping("/login")
-    public String loginPage(Model model){
-        UserDto userDto = new UserDto();
-        model.addAttribute("user", userDto);
-        return "login";
+    @GetMapping("/user")
+    @ResponseBody
+    public String testowanie(){
+        return "Jesteś zalogowany";
     }
 }
