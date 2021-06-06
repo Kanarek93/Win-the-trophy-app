@@ -1,9 +1,12 @@
 package canary.domain.league;
 
+import canary.domain.team.Team;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,5 +18,6 @@ public class LeagueDto {
     private String name;
     private String code;
 
+    private List<Team> teams;
 
 }

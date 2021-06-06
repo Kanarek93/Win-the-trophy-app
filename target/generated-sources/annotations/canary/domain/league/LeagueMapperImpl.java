@@ -1,10 +1,11 @@
 package canary.domain.league;
 
+import canary.domain.league.League.LeagueBuilder;
 import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-06-05T09:12:16+0200",
+    date = "2021-06-06T22:49:05+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 14.0.2 (Oracle Corporation)"
 )
 public class LeagueMapperImpl implements LeagueMapper {
@@ -15,13 +16,13 @@ public class LeagueMapperImpl implements LeagueMapper {
             return null;
         }
 
-        League league = new League();
+        LeagueBuilder league = League.builder();
 
-        league.setId( leagueDto.getId() );
-        league.setName( leagueDto.getName() );
-        league.setCode( leagueDto.getCode() );
+        league.id( leagueDto.getId() );
+        league.name( leagueDto.getName() );
+        league.code( leagueDto.getCode() );
 
-        return league;
+        return league.build();
     }
 
     @Override

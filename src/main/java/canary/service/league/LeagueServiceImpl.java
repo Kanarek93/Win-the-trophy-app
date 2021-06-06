@@ -1,4 +1,4 @@
-package canary.service;
+package canary.service.league;
 
 import canary.domain.league.League;
 import canary.domain.league.LeagueDto;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LeagueServiceImpl {
+public class LeagueServiceImpl implements LeagueService{
 
     private LeagueMapper mapper = Mappers.getMapper(LeagueMapper.class);
 

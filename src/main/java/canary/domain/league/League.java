@@ -1,5 +1,6 @@
 package canary.domain.league;
 
+import canary.domain.team.Team;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,9 +32,10 @@ public class League {
     private String name;
     private String country;
     private String code;
-//    @OneToMany
-//    @JoinColumn (name = "teams_id")
-    //private List<Team> teamList;
+
+    @OneToMany
+    @JoinColumn (name = "teams_id")
+    private List<Team> teamList;
 
 //    @ManyToMany
 //    @JoinTable (name = "league_matches",

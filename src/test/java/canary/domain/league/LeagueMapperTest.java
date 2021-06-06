@@ -1,8 +1,5 @@
 package canary.domain.league;
 
-import canary.domain.User;
-import canary.domain.UserDto;
-import canary.domain.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

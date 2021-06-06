@@ -1,7 +1,7 @@
 package canary.service;
 
-import canary.domain.User;
-import canary.domain.UserDto;
+import canary.domain.user.User;
+import canary.domain.user.UserDto;
 
 
 public interface UserService {

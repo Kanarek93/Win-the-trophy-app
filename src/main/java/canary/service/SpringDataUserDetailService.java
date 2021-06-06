@@ -1,7 +1,7 @@
 package canary.service;
 
-import canary.domain.CurrentUser;
-import canary.domain.User;
+import canary.domain.user.CurrentUser;
+import canary.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

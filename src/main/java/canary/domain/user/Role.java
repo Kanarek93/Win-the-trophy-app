@@ -1,4 +1,4 @@
-package canary.domain;
+package canary.domain.user;
 
 import lombok.Data;
 import lombok.Getter;

@@ -1,8 +1,7 @@
 package canary.controller;
 
-import canary.domain.CurrentUser;
-import canary.domain.User;
-import canary.domain.UserDto;
+import canary.domain.user.User;
+import canary.domain.user.UserDto;
 import canary.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

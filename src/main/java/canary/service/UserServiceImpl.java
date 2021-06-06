@@ -1,10 +1,10 @@
 package canary.service;
 
 import canary.controller.HomeController;
-import canary.domain.Role;
-import canary.domain.User;
-import canary.domain.UserDto;
-import canary.domain.UserMapper;
+import canary.domain.user.Role;
+import canary.domain.user.User;
+import canary.domain.user.UserDto;
+import canary.domain.user.UserMapper;
 import canary.repository.RoleRepository;
 import canary.repository.UserRepository;
 import org.mapstruct.factory.Mappers;
