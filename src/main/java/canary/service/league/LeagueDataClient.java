@@ -2,6 +2,7 @@ package canary.service.league;
 
 import canary.domain.league.LeagueDto;
 import canary.domain.league.LeagueMapper;
+import canary.domain.league.LeagueTeamDto;
 import canary.domain.team.Team;
 import canary.domain.team.TeamDto;
 import canary.domain.team.TeamMapper;
@@ -44,14 +45,14 @@ public class LeagueDataClient {
                 LeagueDto.class);
         LeagueDto leagueDto = exchangeLeague.getBody();
 
-        ResponseEntity<List<TeamDto>> exchangeTeam = restTemplate.exchange(
-                        URL + code + "/teams",
+        ResponseEntity<LeagueTeamDto> exchangeTeam = restTemplate.exchange(
+                        URL + code.toUpperCase() + "/teams",
                         HttpMethod.GET,
                         createEntity(),
-                        new ParameterizedTypeReference<List<TeamDto>>() {}
+                        new ParameterizedTypeReference<LeagueTeamDto>() {}
                 );
 
-        List<Team> teams = exchangeTeam.getBody().stream()
+        List<Team> teams = exchangeTeam.getBody().getTeams().stream()
                 .map(team -> mapper.teamDtoToTeam(team))
                 .collect(Collectors.toList());
 

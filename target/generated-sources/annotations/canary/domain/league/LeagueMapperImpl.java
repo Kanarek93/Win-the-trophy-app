@@ -5,7 +5,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-06-06T22:49:05+0200",
+    date = "2021-06-08T17:44:11+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 14.0.2 (Oracle Corporation)"
 )
 public class LeagueMapperImpl implements LeagueMapper {
