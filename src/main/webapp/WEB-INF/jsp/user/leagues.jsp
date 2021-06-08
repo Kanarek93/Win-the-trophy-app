@@ -7,25 +7,15 @@
 
 </head>
 <body>
-<h1>Wybierz swój ulubiony zespół!</h1>
-<table>
-    <thead>
-    <tr>
-        <td> Id</td>
-        <td> Name</td>
-        <td> Code</td>
-    </tr>
-    </thead>
-    <tbody>
-
-    <c:forEach items="${ligi}" var="liga">
-        <tr>
-            <td>${liga.getId()}</td>
-            <td>${liga.getName()}</td>
-            <td>${liga.getCode()}</td>
-        </tr>
+<h1>Wybierz swoją ulubioną ligę!</h1>
+<body>
+<form:form action="" method="post" modelAttribute="league">
+    <c:forEach items="${leagues}" var="l">
+        <form:radiobutton path="name" value="${l.getName()}"/>${l.getName()} <br>
     </c:forEach>
-    </tbody>
-</table>
+    <input type="submit" value="Wybierz swoją ligę!">
+</form:form>
+
+</body>
 
 </body>

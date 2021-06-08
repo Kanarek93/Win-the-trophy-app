@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -27,7 +28,7 @@ public class League {
     private String country;
     private String code;
 
-    @OneToMany
+    @OneToMany (fetch = FetchType.EAGER)
     @JoinColumn (name = "teams_id")
     private List<Team> teamList;
 
