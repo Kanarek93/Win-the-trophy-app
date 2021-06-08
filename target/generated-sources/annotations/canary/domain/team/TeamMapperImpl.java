@@ -1,10 +1,11 @@
 package canary.domain.team;
 
+import canary.domain.team.Team.TeamBuilder;
 import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-06-08T17:44:11+0200",
+    date = "2021-06-08T18:56:25+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 14.0.2 (Oracle Corporation)"
 )
 public class TeamMapperImpl implements TeamMapper {
@@ -15,9 +16,14 @@ public class TeamMapperImpl implements TeamMapper {
             return null;
         }
 
-        Team team = new Team();
+        TeamBuilder team = Team.builder();
 
-        return team;
+        team.id( teamDto.getId() );
+        team.name( teamDto.getName() );
+        team.tla( teamDto.getTla() );
+        team.crestUrl( teamDto.getCrestUrl() );
+
+        return team.build();
     }
 
     @Override
@@ -27,6 +33,11 @@ public class TeamMapperImpl implements TeamMapper {
         }
 
         TeamDto teamDto = new TeamDto();
+
+        teamDto.setId( team.getId() );
+        teamDto.setName( team.getName() );
+        teamDto.setTla( team.getTla() );
+        teamDto.setCrestUrl( team.getCrestUrl() );
 
         return teamDto;
     }
