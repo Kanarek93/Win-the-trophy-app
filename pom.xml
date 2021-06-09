@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -11,7 +10,6 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <packaging>war</packaging>
     <groupId>canary</groupId>
     <artifactId>Win-the-trophy-app</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -28,13 +26,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Tomcat Configuration -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -58,7 +49,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
         </dependency>
-
 
         <!-- Spring Data -->
         <dependency>
@@ -84,14 +74,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Views -->
-        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
+        <!-- JSP -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
-            <version>9.0.46</version>
         </dependency>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -105,7 +92,7 @@
             <version>1.4.2.Final</version>
         </dependency>
 
-        <!-- Lombok NIE DZIAŁA!! -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -128,14 +115,13 @@
             <groupId>org.xmlunit</groupId>
             <artifactId>xmlunit-core</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
         <resources>
-        <resource>
-            <directory>src/main/webapp</directory>
-        </resource>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
         </resources>
         <plugins>
             <!--plugin>

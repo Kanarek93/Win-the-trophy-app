@@ -1,6 +1,5 @@
 package canary.domain.league;
 
-import canary.domain.team.Team;
 import canary.domain.team.TeamDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

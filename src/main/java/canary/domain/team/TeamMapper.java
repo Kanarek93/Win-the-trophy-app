@@ -2,7 +2,7 @@ package canary.domain.team;
 
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper (componentModel = "spring")
 public interface TeamMapper {
 
     Team teamDtoToTeam(TeamDto teamDto);

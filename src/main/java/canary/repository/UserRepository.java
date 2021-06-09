@@ -11,7 +11,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-
     //pobranie ulubionego zespołu
 
 }

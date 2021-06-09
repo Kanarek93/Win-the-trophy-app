@@ -22,7 +22,7 @@ import java.util.HashSet;
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-    private UserMapper mapper = Mappers.getMapper(UserMapper.class);
+    private final UserMapper mapper = Mappers.getMapper(UserMapper.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

@@ -1,14 +1,10 @@
 package canary.domain.team;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
-@ToString
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
 public class TeamDto {
 
     private Long id;
