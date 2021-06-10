@@ -1,5 +1,6 @@
 package canary.domain.user;
 
+import canary.domain.team.Team;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Set;
 
@@ -43,6 +45,8 @@ public class User {
 
     private int enabled;
 
-    private String favTeam;
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id")
+    private Team favTeam;
 
 }

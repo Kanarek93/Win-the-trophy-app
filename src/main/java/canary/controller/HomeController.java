@@ -2,7 +2,7 @@ package canary.controller;
 
 import canary.domain.user.User;
 import canary.domain.user.UserDto;
-import canary.service.UserService;
+import canary.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,13 +29,6 @@ public class HomeController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
-    public String loadLoginPage(WebRequest request, Model model){
-        UserDto userDto = new UserDto();
-        model.addAttribute("user", userDto);
-        return "login";
-    }
-
 
     @GetMapping("/register")
     public String loadRegisterPage(WebRequest request, Model model){
@@ -45,24 +38,18 @@ public class HomeController {
     }
 
     @PostMapping("/register")
-    @ResponseBody
-    public ModelAndView registrationForm(@ModelAttribute ("user") @Valid UserDto user,
+    public String registrationForm(@ModelAttribute ("user") @Valid UserDto user,
                                          HttpServletRequest request,
-                                         Errors errors){
+                                         Errors errors,
+                                   Model model){
         try {
             User registered = userService.registerUser(user);
         } catch (Exception uaeEx) {
-            ModelAndView mav = new ModelAndView();
-            mav.addObject("message", "An account with this email already exist");
-            return mav;
+           model.addAttribute("message", "Użytkownik o tym loginie już istnieje!");
+            return "403";
         }
 
-        return new ModelAndView("login", "user", user);
+        return "redirect:/user";
     }
 
-    @GetMapping("/user")
-    @ResponseBody
-    public String testowanie(){
-        return "Jesteś zalogowany";
-    }
 }

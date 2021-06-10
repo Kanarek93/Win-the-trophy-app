@@ -55,21 +55,17 @@ public class LeagueController {
     @GetMapping("/user/chooseleague")
     public String showLeagues(Model model){
         model.addAttribute("league", new League());
-        return "/user/leagues";
+        return "leagues";
     }
 
     @PostMapping("/user/chooseleague")
     public String chooseLeague(Model model, League league){
         League downloadedLeague = lsi.getLeagueByName(league.getName());
         model.addAttribute("teams", downloadedLeague.getTeamList());
-        return "user/chooseFavTeam";
+        model.addAttribute("team", new Team());
+        return "chooseFavTeam";
     }
 
-    @PostMapping("/user/chooseteam")
-    @ResponseBody
-    public String chooseTeam(Team team){
-        return "Wybierz";
-    }
 
     @ModelAttribute("leagues")
     public List<League> leagues(){

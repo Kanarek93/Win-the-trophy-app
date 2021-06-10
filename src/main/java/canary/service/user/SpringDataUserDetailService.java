@@ -1,4 +1,4 @@
-package canary.service;
+package canary.service.user;
 
 import canary.domain.user.CurrentUser;
 import canary.domain.user.User;

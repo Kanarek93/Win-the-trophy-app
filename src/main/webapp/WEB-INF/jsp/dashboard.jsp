@@ -1,19 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: canary
-  Date: 04.06.2021
-  Time: 21:03
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-<form action="<c:url value="/logout"/>" method="post">
-    <input class="fa fa-id-badge" type="submit" value="Wyloguj">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-</form>
+<%@include file="header.jsp"%>>
+<br>
+<h1>Twój ulubiony zespół</h1>
+
+<img src="${user.getFavTeam().getCrestUrl()}"/><br>
+${user.getFavTeam().getName()} <br>
+
+<a href="/user/chooseleague">Zmień zespół</a>
+
+
 </body>
 </html>
