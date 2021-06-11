@@ -40,7 +40,7 @@ public class League {
     //private List<Match> seasonMatchList;
 
     //ile jest kolejek
-    private Integer matchweeks;
+    private Integer matchDay;
     //w zależności od ilości drużyn co tydzień odbywa się różna ilość meczy, do wyświetlania pewnie się przyda;
     private Integer matchesInWeek;
 

@@ -8,6 +8,7 @@ import canary.domain.team.TeamDto;
 import canary.domain.team.TeamMapper;
 import canary.repository.LeagueRepository;
 import canary.repository.TeamRepository;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class LeagueDataClient {
 
     private static final String URL = "https://api.football-data.org/v2/competitions/";
@@ -28,13 +30,8 @@ public class LeagueDataClient {
     private static final String AUTHORIZATION_HEADER_KEY = "X-Auth-Token";
     private static final String AUTHORIZATION_TOKEN = "2e2241d932ec479483c631d5b531450e";
 
-    private TeamMapper mapper = Mappers.getMapper(TeamMapper.class);
-
+    private final TeamMapper mapper;
     private final RestTemplate restTemplate;
-
-    public LeagueDataClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public LeagueDto getLeagueData(String code){
 

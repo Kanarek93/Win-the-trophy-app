@@ -8,6 +8,7 @@ import canary.domain.user.UserDto;
 import canary.domain.user.UserMapper;
 import canary.repository.RoleRepository;
 import canary.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,21 +25,16 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-    private final UserMapper mapper = Mappers.getMapper(UserMapper.class);
 
+    private final UserMapper mapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
-
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
-    }
 
     @Override
     public User findByUserName(String name) {

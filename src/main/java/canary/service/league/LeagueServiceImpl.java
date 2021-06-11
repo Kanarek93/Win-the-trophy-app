@@ -3,21 +3,20 @@ package canary.service.league;
 import canary.domain.league.League;
 import canary.domain.league.LeagueDto;
 import canary.domain.league.LeagueMapper;
-import canary.domain.team.Team;
 import canary.repository.LeagueRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class LeagueServiceImpl implements LeagueService{
 
-    private LeagueMapper mapper = Mappers.getMapper(LeagueMapper.class);
-
+    private LeagueMapper mapper;
     private final LeagueDataClient ldc;
     private final LeagueRepository lr;
 
