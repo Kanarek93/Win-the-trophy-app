@@ -3,12 +3,14 @@ package canary.service.league;
 import canary.domain.league.LeagueDto;
 import canary.domain.league.LeagueMapper;
 import canary.domain.league.LeagueTeamDto;
+import canary.domain.match.Match;
 import canary.domain.team.Team;
 import canary.domain.team.TeamDto;
 import canary.domain.team.TeamMapper;
 import canary.repository.LeagueRepository;
 import canary.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.mapstruct.factory.Mappers;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -36,7 +38,7 @@ public class LeagueDataClient {
     public LeagueDto getLeagueData(String code){
 
         ResponseEntity<LeagueDto> exchangeLeague = restTemplate.exchange(
-                URL + code,
+                URL + code.toUpperCase(),
                 HttpMethod.GET,
                 createEntity(),
                 LeagueDto.class);
@@ -56,6 +58,15 @@ public class LeagueDataClient {
         leagueDto.setTeams(teams);
         return leagueDto;
 
+    }
+
+    public List<Match> getLeagueMatches(String code) {
+        ResponseEntity<LeagueTeamDto> exchangeTeam = restTemplate.exchange(
+                URL + code.toUpperCase() + "/matches",
+                HttpMethod.GET,
+                createEntity(),
+                new ParameterizedTypeReference<LeagueTeamDto>() {}
+        );
     }
 
     private HttpEntity createEntity() {
