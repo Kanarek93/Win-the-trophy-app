@@ -30,10 +30,9 @@ public class League {
     private String country;
     private String code;
 
-    @ManyToMany (fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "league_team", joinColumns = @JoinColumn(name = "league_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id"))
+    @OneToMany (fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+    mappedBy = "league")
     private List<Team> teamList;
 
     //ile jest kolejek

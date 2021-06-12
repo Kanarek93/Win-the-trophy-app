@@ -9,6 +9,8 @@ import canary.domain.match.MatchMainMapper;
 import canary.domain.team.Team;
 import canary.domain.team.TeamMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +30,8 @@ public class DataClient {
 
     private static final String AUTHORIZATION_HEADER_KEY = "X-Auth-Token";
     private static final String AUTHORIZATION_TOKEN = "2e2241d932ec479483c631d5b531450e";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataClient.class);
 
     private final TeamMapper teamMapper;
     private final MatchMainMapper matchMainMapper;
@@ -55,7 +59,8 @@ public class DataClient {
                 .peek(team -> team.setLeague(leagueMapper.leagueDtoToLeague(leagueDto)))
                 .collect(Collectors.toList());
 
-        leagueDto.setCounts(exchangeTeam.getBody().getCounts());
+        LOGGER.info("Naliczyłem zespołów: " + exchangeTeam.getBody().getCount());
+        leagueDto.setCounts(exchangeTeam.getBody().getCount());
         leagueDto.setTeams(teams);
         return leagueDto;
 
@@ -68,6 +73,7 @@ public class DataClient {
                 createEntity(),
                 new ParameterizedTypeReference<MatchMainDto>() {}
         );
+        LOGGER.info("DC: Pobiram dane ligi" + exchangeMatches.getBody().getCompetition().getCode());
         return matchMainMapper.getListOfMatches(exchangeMatches.getBody());
     }
 

@@ -14,5 +14,5 @@ import java.util.List;
 public class LeagueTeamDto {
 
     private List<TeamDto> teams;
-    private Integer counts;
+    private Integer count;
 }

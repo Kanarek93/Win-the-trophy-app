@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -26,8 +27,7 @@ public class Team {
     private String name;
     private String tla; //skrót meczowy
     private String crestUrl; //logo
-    @ManyToOne
-    @JoinColumn (name="team_id")
+    @ManyToOne (fetch = FetchType.EAGER)
     private League league;
 
     //Inne

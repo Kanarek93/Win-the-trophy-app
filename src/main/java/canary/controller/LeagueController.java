@@ -43,10 +43,19 @@ public class LeagueController {
     @GetMapping("/admin/leagues/{code}")
     @ResponseBody
     public String saveLeague(@PathVariable String code){
-        LeagueDto downloadedLeague = lsi.getLeagueFromApi(code);
-        lsi.saveLeague(downloadedLeague);
-        LOGGER.info("Pobrałem ligę " + code);
-        return downloadedLeague.toString();
+        try {
+            LeagueDto downloadedLeague = lsi.getLeagueFromApi(code);
+            lsi.saveLeague(downloadedLeague);
+            LOGGER.info("Pobrałem ligę " + code);
+            return downloadedLeague.toString();
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode().value() == 429) {
+                LOGGER.error("Za dużo zapytań do bazy");
+                return "429";
+            } else {
+                return "error";
+            }
+        }
     }
 
     //Pobieranie wszystkich dostępnych lig
@@ -73,16 +82,13 @@ public class LeagueController {
     @ResponseBody
     public String saveMatches(@PathVariable String code){
         try {
-            for (AvailableLeauges av : AvailableLeauges.values()) {
-                List<Match> matches = msi.getMatchesFromAPi(av.toString().toUpperCase());
+               List<Match> matches = msi.getMatchesFromAPi(code.toUpperCase());
                 LOGGER.info("Pobrałem mecze z ligi " +  code);
                 for (Match m : matches){
                     msi.saveMatch(m);
-                    LOGGER.info("Zapisałem do bazy mecz o id = " + m.getId());
+                    //LOGGER.info("Zapisałem do bazy mecz o id = " + m.getId());
                 }
-                return "Zakończono";
-            }
-            return "Pobrano dane o meczach" + AvailableLeauges.values().length + " ligach";
+            return "Pobrano dane o meczach" + code + " ligach";
         } catch (HttpClientErrorException ex){
             if (ex.getStatusCode().value() == 429){
                 LOGGER.error("Za dużo zapytań do bazy");

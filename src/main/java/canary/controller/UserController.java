@@ -38,7 +38,9 @@ public class UserController {
             return "redirect:/user/chooseleague";
         }
         else {
+            LOGGER.info("Current user favTeam: " + current.getFavTeam().getName());
             model.addAttribute("user", current);
+            model.addAttribute("totalMatchDays", current.getFavTeam().getLeague().getMatchDaysInTotal());
          return "dashboard";
         }
     }

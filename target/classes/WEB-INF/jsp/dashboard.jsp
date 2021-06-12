@@ -31,17 +31,18 @@ Gole stracone : ${user.getFavTeam().getLostGoals()} <br>
     </c:when>
     <c:otherwise><br> Nie można pobrać danych o statystykach</c:otherwise>
 </c:choose>
+<br>
 <c:choose>
-    <c:when test="${not empty user.getFavTeam().getLeague().getMatchDaysInTotal()} ">
-<h3>Czy Twój zespół miał szansę na wygraną w kolejce numer: </h3>
-<form method="post" action="/user/couldwin">
-    <select name="matchday">
-    <c:forEach begin="1" end="${user.getFavTeam().getLeague().getMatchDaysInTotal()}" var="md" step="1">
-            <option value="${md}">${md}</option>
-    </c:forEach>
-    </select>
-    <input type="submit" value="Sprawdź">
-</form>
+    <c:when test="${not empty totalMatchDays}">
+        <h3>Czy Twój zespół miał szansę na wygraną w kolejce numer: </h3>
+        <form method="post" action="/user/couldwin">
+            <select name="matchday">
+                <c:forEach begin="1" end="${totalMatchDays}" var="md" step="1">
+                    <option value="${md}">${md}</option>
+                </c:forEach>
+            </select>
+            <input type="submit" value="Sprawdź">
+        </form>
     </c:when>
     <c:otherwise>
         <br>

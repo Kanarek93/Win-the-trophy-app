@@ -45,7 +45,8 @@ public class User {
 
     private int enabled;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.ALL,
+    fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
     private Team favTeam;
 
