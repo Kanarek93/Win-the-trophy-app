@@ -1,17 +1,21 @@
 <%--
   Created by IntelliJ IDEA.
   User: canary
-  Date: 11.06.2021
-  Time: 22:57
+  Date: 12.06.2021
+  Time: 05:25
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<h1>Wystąpił nieobsłużony błąd</h1>
+<c:choose>
+    <c:when test="${not empty message}">${message}</c:when>
+    <c:otherwise>Coś poszło nie tak</c:otherwise>
+</c:choose>
 <a href="/user">Powrót</a>
 </body>
 </html>

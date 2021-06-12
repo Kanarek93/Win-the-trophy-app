@@ -5,19 +5,21 @@ import canary.domain.league.LeagueDto;
 import canary.domain.league.LeagueMapper;
 import canary.repository.LeagueRepository;
 
+import canary.service.DataClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class LeagueServiceImpl implements LeagueService{
 
-    private LeagueMapper mapper;
-    private final LeagueDataClient ldc;
+    private final LeagueMapper leagueMapper;
+    private final DataClient ldc;
     private final LeagueRepository lr;
 
     public List<League> getLeagues(){
@@ -25,7 +27,7 @@ public class LeagueServiceImpl implements LeagueService{
     }
 
     public League saveLeague(LeagueDto leagueDto){
-        League leagueToSave = mapper.leagueDtoToLeague(leagueDto);
+        League leagueToSave = leagueMapper.leagueDtoToLeague(leagueDto);
         return lr.save(leagueToSave);
     }
 
@@ -37,4 +39,8 @@ public class LeagueServiceImpl implements LeagueService{
         return lr.findByName(name);
     }
 
+    @Override
+    public Optional<League> getLeagueById(Long id) {
+        return lr.findById(id);
+    }
 }

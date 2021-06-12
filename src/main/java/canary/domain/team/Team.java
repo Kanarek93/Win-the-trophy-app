@@ -1,5 +1,6 @@
 package canary.domain.team;
 
+import canary.domain.league.League;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Builder
@@ -21,6 +26,9 @@ public class Team {
     private String name;
     private String tla; //skrót meczowy
     private String crestUrl; //logo
+    @ManyToOne
+    @JoinColumn (name="team_id")
+    private League league;
 
     //Inne
     private Integer points;
@@ -31,4 +39,5 @@ public class Team {
 
     private Integer goals;
     private Integer lostGoals;
+
 }

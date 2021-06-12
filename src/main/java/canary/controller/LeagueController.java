@@ -2,8 +2,12 @@ package canary.controller;
 
 import canary.domain.league.League;
 import canary.domain.league.LeagueDto;
+import canary.domain.match.Match;
 import canary.domain.team.Team;
+import canary.domain.user.User;
 import canary.service.league.LeagueServiceImpl;
+import canary.service.match.MatchServiceImpl;
+import canary.service.team.TeamServiceImpl;
 import canary.statics.AvailableLeauges;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -29,6 +34,8 @@ public class LeagueController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LeagueController.class);
 
     private final LeagueServiceImpl lsi;
+    private final MatchServiceImpl msi;
+    private final TeamServiceImpl tsi;
 
 
     //Pobierać do bazy danych mogą tylko Admini
@@ -43,13 +50,48 @@ public class LeagueController {
     }
 
     //Pobieranie wszystkich dostępnych lig
-    //------ ????????? Czy muszę sprawdzać czy już taka liga jest ???????? --------
     @GetMapping("/admin/leagues")
     public String saveLeagues(){
-        for(AvailableLeauges av : AvailableLeauges.values()){
-            LOGGER.info(saveLeague(av.toString()));
+
+        try {
+            for (AvailableLeauges av : AvailableLeauges.values()) {
+                LOGGER.info(saveLeague(av.toString()));
+            }
+            return "Pobrano dane o " + AvailableLeauges.values().length + " ligach";
+        } catch (HttpClientErrorException ex){
+            if (ex.getStatusCode().value() == 429){
+                LOGGER.error("Za dużo zapytań do bazy");
+                return "429";
+            }
+            else {
+                return "error";
+            }
         }
-        return "Pobrano dane o " + AvailableLeauges.values().length + " ligach";
+    }
+
+    @GetMapping("/admin/matches/{code}")
+    @ResponseBody
+    public String saveMatches(@PathVariable String code){
+        try {
+            for (AvailableLeauges av : AvailableLeauges.values()) {
+                List<Match> matches = msi.getMatchesFromAPi(av.toString().toUpperCase());
+                LOGGER.info("Pobrałem mecze z ligi " +  code);
+                for (Match m : matches){
+                    msi.saveMatch(m);
+                    LOGGER.info("Zapisałem do bazy mecz o id = " + m.getId());
+                }
+                return "Zakończono";
+            }
+            return "Pobrano dane o meczach" + AvailableLeauges.values().length + " ligach";
+        } catch (HttpClientErrorException ex){
+            if (ex.getStatusCode().value() == 429){
+                LOGGER.error("Za dużo zapytań do bazy");
+                return "429";
+            }
+            else {
+                return "error";
+            }
+        }
     }
 
     @GetMapping("/user/chooseleague")
@@ -65,6 +107,44 @@ public class LeagueController {
         model.addAttribute("team", new Team());
         return "chooseFavTeam";
     }
+
+    @GetMapping("/user/leagueteams/{id}")
+    public String getMatchStatsAndSave(@PathVariable Long id){
+        League league = lsi.getLeagueById(id).get();
+        List<Team> leagueTeams = tsi.getTeamsFromLeague(league);
+        for (Team t : leagueTeams){
+            Team team = tsi.getStats(t.getId(), league.getMatchDaysInTotal());
+            tsi.saveTeam(team);
+        }
+        return "redirect:/user";
+    }
+
+    @PostMapping("/user/couldwin")
+    public String checkIfCouldWin(User user, Integer md, Model model){
+        int maxPoints = 0;
+        int favTeamPoints = user.getFavTeam().getPoints();
+        int matchDaysInTotal = user.getFavTeam().getLeague().getMatchDaysInTotal();
+
+        League userLeague = lsi.getLeagueById(user.getFavTeam().getLeague().getId()).get();
+        List<Team> teams = tsi.getTeamsFromLeague(userLeague);
+        for (Team t :teams){
+            tsi.getStats(t.getId(), md);
+            if (maxPoints < t.getPoints()){
+                maxPoints = t.getPoints();
+            }
+        }
+
+        if ((maxPoints - favTeamPoints) == 0) {
+            model.addAttribute("message", "Twój zespół jest na pierwszym miejscu!");
+        } else if((maxPoints - favTeamPoints) > (matchDaysInTotal - md)*3) {
+            model.addAttribute("message", "Twój zespół już nie może wygrać :(");
+        } else {
+            model.addAttribute("message", "Wciąż są szanse!");
+        }
+
+        return "couldWin";
+    }
+
 
 
     @ModelAttribute("leagues")

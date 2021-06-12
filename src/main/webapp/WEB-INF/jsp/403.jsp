@@ -5,6 +5,7 @@
     <title>Security with Spring Boot</title>
 </head>
 <body>
-<h1>Dostęp zabroniony</h1>
+<h1>Błąd: Dostęp zabroniony</h1>
+<a href="/user">Powrót</a>
 </body>
 </html>

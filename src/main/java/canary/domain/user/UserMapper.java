@@ -2,7 +2,7 @@ package canary.domain.user;
 
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper (componentModel = "spring")
 public interface UserMapper {
 
     User userDtoToUser(UserDto userDto);

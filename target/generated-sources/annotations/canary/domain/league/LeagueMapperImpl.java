@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-06-10T18:14:16+0200",
+    date = "2021-06-12T05:28:48+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 14.0.2 (Oracle Corporation)"
 )
 @Component
@@ -27,29 +27,13 @@ public class LeagueMapperImpl implements LeagueMapper {
         if ( list != null ) {
             league.teamList( new ArrayList<Team>( list ) );
         }
+        if ( leagueDto.getCounts() != null ) {
+            league.matchDaysInTotal( LeagueMapper.countToMatchDays( leagueDto.getCounts().intValue() ) );
+        }
         league.id( leagueDto.getId() );
         league.name( leagueDto.getName() );
         league.code( leagueDto.getCode() );
 
         return league.build();
-    }
-
-    @Override
-    public LeagueDto leagueToLeagueDto(League league) {
-        if ( league == null ) {
-            return null;
-        }
-
-        LeagueDto leagueDto = new LeagueDto();
-
-        List<Team> list = league.getTeamList();
-        if ( list != null ) {
-            leagueDto.setTeams( new ArrayList<Team>( list ) );
-        }
-        leagueDto.setId( league.getId() );
-        leagueDto.setName( league.getName() );
-        leagueDto.setCode( league.getCode() );
-
-        return leagueDto;
     }
 }

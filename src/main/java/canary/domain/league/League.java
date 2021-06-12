@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -28,20 +30,13 @@ public class League {
     private String country;
     private String code;
 
-    @OneToMany (fetch = FetchType.EAGER,
+    @ManyToMany (fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn (name = "league_id")
+    @JoinTable(name = "league_team", joinColumns = @JoinColumn(name = "league_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
     private List<Team> teamList;
 
-//    @ManyToMany
-//    @JoinTable (name = "league_matches",
-//    joinColumns = @JoinColumn(name = "league_id"),
-//    inverseJoinColumns = @JoinColumn(name = "match_id"))
-    //private List<Match> seasonMatchList;
-
     //ile jest kolejek
-    private Integer matchDay;
-    //w zależności od ilości drużyn co tydzień odbywa się różna ilość meczy, do wyświetlania pewnie się przyda;
-    private Integer matchesInWeek;
+    private Integer matchDaysInTotal;
 
 }

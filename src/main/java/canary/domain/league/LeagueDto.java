@@ -13,5 +13,6 @@ public class LeagueDto {
     private String code;
 
     private List<Team> teams;
+    private Integer counts;
 
 }

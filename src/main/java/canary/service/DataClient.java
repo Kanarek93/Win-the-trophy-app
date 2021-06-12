@@ -1,17 +1,14 @@
-package canary.service.league;
+package canary.service;
 
 import canary.domain.league.LeagueDto;
 import canary.domain.league.LeagueMapper;
 import canary.domain.league.LeagueTeamDto;
 import canary.domain.match.Match;
+import canary.domain.match.MatchMainDto;
+import canary.domain.match.MatchMainMapper;
 import canary.domain.team.Team;
-import canary.domain.team.TeamDto;
 import canary.domain.team.TeamMapper;
-import canary.repository.LeagueRepository;
-import canary.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import org.mapstruct.factory.Mappers;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,14 +22,16 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class LeagueDataClient {
+public class DataClient {
 
     private static final String URL = "https://api.football-data.org/v2/competitions/";
 
     private static final String AUTHORIZATION_HEADER_KEY = "X-Auth-Token";
     private static final String AUTHORIZATION_TOKEN = "2e2241d932ec479483c631d5b531450e";
 
-    private final TeamMapper mapper;
+    private final TeamMapper teamMapper;
+    private final MatchMainMapper matchMainMapper;
+    private final LeagueMapper leagueMapper;
     private final RestTemplate restTemplate;
 
     public LeagueDto getLeagueData(String code){
@@ -52,21 +51,24 @@ public class LeagueDataClient {
                 );
 
         List<Team> teams = exchangeTeam.getBody().getTeams().stream()
-                .map(team -> mapper.teamDtoToTeam(team))
+                .map(team -> teamMapper.teamDtoToTeam(team))
+                .peek(team -> team.setLeague(leagueMapper.leagueDtoToLeague(leagueDto)))
                 .collect(Collectors.toList());
 
+        leagueDto.setCounts(exchangeTeam.getBody().getCounts());
         leagueDto.setTeams(teams);
         return leagueDto;
 
     }
 
     public List<Match> getLeagueMatches(String code) {
-        ResponseEntity<LeagueTeamDto> exchangeTeam = restTemplate.exchange(
+        ResponseEntity<MatchMainDto> exchangeMatches = restTemplate.exchange(
                 URL + code.toUpperCase() + "/matches",
                 HttpMethod.GET,
                 createEntity(),
-                new ParameterizedTypeReference<LeagueTeamDto>() {}
+                new ParameterizedTypeReference<MatchMainDto>() {}
         );
+        return matchMainMapper.getListOfMatches(exchangeMatches.getBody());
     }
 
     private HttpEntity createEntity() {
